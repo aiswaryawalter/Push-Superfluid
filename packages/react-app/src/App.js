@@ -52,66 +52,66 @@ function WalletButton() {
 }
 
 function App() {
-  const { account, library, chainId } = useWeb3React();
-  const signer = library.getSigner(account);
+  // const { account, library, chainId } = useWeb3React();
+  // const signer = library.getSigner(account);
   
-  // Getting Channel Details
-  const yourChannel = '0x7BF52A34D90C6266CD0524989eDcEAa395C20b79';
-  const [ channelDetails, setChannelDetails ] = useState(null);
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await PushAPI.channels.getChannel({
-        channel: `eip155:5:${yourChannel}`, // channel address in CAIP
-        env: 'staging'
-      });
+  // // Getting Channel Details
+  // const yourChannel = '0x7BF52A34D90C6266CD0524989eDcEAa395C20b79';
+  // const [ channelDetails, setChannelDetails ] = useState(null);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const data = await PushAPI.channels.getChannel({
+  //       channel: `eip155:5:${yourChannel}`, // channel address in CAIP
+  //       env: 'staging'
+  //     });
 
-      console.log(data);
-      setChannelDetails(data);
-    }
+  //     console.log(data);
+  //     setChannelDetails(data);
+  //   }
 
-    if (!channelDetails && account) {
-      console.log('Calling channel data');
-      fetchData().catch(console.error);
-    }
-  }, [channelDetails, account]);
+  //   if (!channelDetails && account) {
+  //     console.log('Calling channel data');
+  //     fetchData().catch(console.error);
+  //   }
+  // }, [channelDetails, account]);
 
-  // Getting Channel Opt-in -1 is not set, 0 is opted out and 1 is opted in
-  const [ channelOptStatus, setChannelOptStatus ] = useState(-1);
-  const [ userDetail, setUserDetail ] = useState(null);
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await PushAPI.user.getSubscriptions({
-        user: `eip155:5:${account}`, // user address in CAIP or in address if defaulting to Ethereum
-        env: 'staging'
-      });
+  // // Getting Channel Opt-in -1 is not set, 0 is opted out and 1 is opted in
+  // const [ channelOptStatus, setChannelOptStatus ] = useState(-1);
+  // const [ userDetail, setUserDetail ] = useState(null);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const data = await PushAPI.user.getSubscriptions({
+  //       user: `eip155:5:${account}`, // user address in CAIP or in address if defaulting to Ethereum
+  //       env: 'staging'
+  //     });
 
-      console.log(data);
-      let found = false;
-      for (var i = 0; i < data.length; i++) {
-        const element = data[i];
-        console.log(element.channel);
-        if (element.channel === yourChannel) {
-          setChannelOptStatus(1);
-          found = true;
-          console.log('channel found in user opt ins')
-        }
+  //     console.log(data);
+  //     let found = false;
+  //     for (var i = 0; i < data.length; i++) {
+  //       const element = data[i];
+  //       console.log(element.channel);
+  //       if (element.channel === yourChannel) {
+  //         setChannelOptStatus(1);
+  //         found = true;
+  //         console.log('channel found in user opt ins')
+  //       }
 
-        if (found) {
-          break;
-        }
-      }
+  //       if (found) {
+  //         break;
+  //       }
+  //     }
       
-      if (!found) {
-        setChannelOptStatus(0);
-      }
-      setChannelDetails(data);
-    }
+  //     if (!found) {
+  //       setChannelOptStatus(0);
+  //     }
+  //     setChannelDetails(data);
+  //   }
 
-    if (!userDetail && account) {
-      console.log('Calling user details');
-      fetchData().catch(console.error);
-    }
-  }, [userDetail, account]);
+  //   if (!userDetail && account) {
+  //     console.log('Calling user details');
+  //     fetchData().catch(console.error);
+  //   }
+  // }, [userDetail, account]);
   
 
   return (
