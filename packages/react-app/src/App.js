@@ -11,7 +11,8 @@ import { addresses, abis } from "@my-app/contracts";
 import GET_TRANSFERS from "./graphql/subgraph";
 
 import { useWeb3React } from "@web3-react/core";
-import * as PushAPI from '@pushprotocol/restapi';
+import Optin from './OptIn'
+
 
 function WalletButton() {
   const [rendered, setRendered] = useState("");
@@ -52,9 +53,23 @@ function WalletButton() {
 }
 
 function App() {
-  // const { account, library, chainId } = useWeb3React();
-  // const signer = library.getSigner(account);
+  // const [signer, setSigner] = useState('')
+  const [channelAddress, setChannelAddress] = useState('')
+  const [subscriberAddress, setSubscribersAddress] = useState('')
+  const { account, library, chainId } = useWeb3React();
+  const signer = library.getSigner(account);
   
+
+
+  useEffect(() => {
+    try{
+      subscriberAddress(account)
+      channelAddress('0x0')// channel address here
+    }catch(e){
+      console.log(e)
+    }
+  }, [account])
+
   // // Getting Channel Details
   // const yourChannel = '0x7BF52A34D90C6266CD0524989eDcEAa395C20b79';
   // const [ channelDetails, setChannelDetails ] = useState(null);
@@ -117,6 +132,7 @@ function App() {
   return (
     <Container>
       <Header>
+        <Optin signer= {signer} channelAddress={channelAddress} subscriberAddress={subscriberAddress}/>
         <WalletButton />
       </Header>
       <Body>
